@@ -12,4 +12,8 @@ router.post("/login", userController.userLogin);
 // router.get("/order-sampah", userController.);
 // router.post("/order-sampah", userController.);
 
+// router.get("/profile", userController.);
+// router.post("/profile", userController.);
+// router.post("/profile/change-password", userController.);
+
 export default router;
