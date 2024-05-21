@@ -1,4 +1,3 @@
-````markdown
 # Greenhaul GitHub Repository
 
 Selamat datang di Greenhaul GitHub Repository. Repository ini digunakan untuk pengembangan proyek akhir Praktikum Sistem Basis Data (SBD) oleh Kelompok 13.
@@ -14,7 +13,6 @@ Buka terminal dan jalankan perintah berikut untuk melakukan clone repository:
 ```bash
 git clone https://github.com/SistemBasisData2024/greenhaul.git
 ```
-````
 
 ### 2. Install Packages
 
