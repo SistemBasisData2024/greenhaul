@@ -6,9 +6,9 @@ import cors from "cors";
 
 import { db } from "./config/db.js";
 
-import userRoutes from "./routes/user.routes.js";
-import produkRoutes from "./routes/produk.routes.js";
-import adminRoutes from "./routes/admin.routes.js";
+import userRoutes from "./routes/userRoutes.js";
+import produkRoutes from "./routes/produkRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 dotenv.config();
 
