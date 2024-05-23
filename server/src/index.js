@@ -7,6 +7,7 @@ import cors from "cors";
 import { db } from "./config/db.js";
 
 import userRoutes from "./routes/userRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js";
 import produkRoutes from "./routes/produkRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 
@@ -34,6 +35,7 @@ app.use(helmet());
 /* ===================================== */
 
 app.use("/user", userRoutes);
+app.use("/profile", profileRoutes);
 app.use("/produk", produkRoutes);
 app.use("/admin", adminRoutes);
 
