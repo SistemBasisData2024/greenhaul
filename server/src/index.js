@@ -7,8 +7,6 @@ import cors from "cors";
 import { db } from "./config/db.js";
 
 import userRoutes from "./routes/user.routes.js";
-import profileRoutes from "./routes/profile.routes.js";
-import produkRoutes from "./routes/produk.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 
 dotenv.config();
@@ -35,8 +33,6 @@ app.use(helmet());
 /* ===================================== */
 
 app.use("/user", userRoutes);
-app.use("/profile", profileRoutes);
-app.use("/produk", produkRoutes);
 app.use("/admin", adminRoutes);
 
 /* ======================================
