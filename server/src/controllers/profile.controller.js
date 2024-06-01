@@ -3,9 +3,9 @@ import bcrypt from "bcrypt";
 
 /* Get User Profile Controller */
 export const getUserProfile = async (req, res) => {
-  const { id } = req.params;
+  const { user_id } = req.params;
   try {
-    const { rows } = await db.query("SELECT * FROM \"user\" WHERE id = $1", [id]);
+    const { rows } = await db.query("SELECT * FROM \"user\" WHERE id = $1", [user_id]);
     if (rows.length === 0) {
       res.status(404).json({ error: "User not found" });
     } else {
