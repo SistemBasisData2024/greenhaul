@@ -1,15 +1,12 @@
-import { Outlet, ScrollRestoration } from "react-router-dom";
+// src/App.jsx
+import { Outlet } from "react-router-dom";
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
     <>
-      <ScrollRestoration />
-
-      {/* <NavBar /> */}
-
+      <NavBar />
       <Outlet />
-
-      {/* <Footer /> */}
     </>
   );
 }

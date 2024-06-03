@@ -39,7 +39,7 @@ export const orderProduct = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const produkResult = await db.query("SELECT harga_koin, stok FROM produk WHERE id = $1", [produk_id]);
+    const produkResult = await db.query("SELECT harga_koin, stok FROM \"produk\" WHERE id = $1", [produk_id]);
     const produk = produkResult.rows[0];
     if (!produk) {
       return res.status(404).json({ message: "Product not found" });
@@ -62,6 +62,7 @@ export const orderProduct = async (req, res) => {
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
+    console.error("Error in orderProduct:", error);
     res.status(500).json({ error: error.message });
   }
 };

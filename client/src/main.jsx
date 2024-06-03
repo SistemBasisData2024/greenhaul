@@ -1,88 +1,40 @@
+// src/main.jsx
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import "./index.css";
-
 import App from "./App.jsx";
 import UserLogin from "./pages/UserLogin.jsx";
+import Store from "./pages/Store.jsx";
+import Profile from "./pages/Profile.jsx";
+import StoreDetails from "./pages/StoreDetails.jsx";
 
-const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: <UserLogin />,
-  },
-  {
-    path: "/register",
-    element: null,
-  },
-  {
-    element: <App />,
-    children: [
-      {
-        path: "/dashboard",
-        element: null,
-        children: [
-          {
-            path: "/create-pesanan-sampah",
-            element: null,
-          },
-        ],
-      },
-      {
-        path: "/store",
-        element: null,
-        children: [
-          {
-            path: ":id",
-            element: null,
-          },
-        ],
-      },
-      {
-        path: "/profile",
-        element: null,
-      },
-    ],
-  },
-  {
-    path: "/admin",
-    element: null,
-    children: [
-      {
-        path: "authenticate",
-        element: null,
-      },
-      {
-        path: "order-sampah",
-        element: null,
-      },
-      {
-        path: "order-sampah/:id",
-        element: null,
-      },
-      {
-        path: "order-produk",
-        element: null,
-      },
-      {
-        path: "order-produk/:id",
-        element: null,
-      },
-      {
-        path: "produk",
-        element: null,
-      },
-      {
-        path: "produk/:id",
-        element: null,
-      },
-    ],
-  },
-]);
+const router = (
+  <Router>
+    <Routes>
+      <Route path="/" element={<App />}>
+        <Route path="store" element={<Store />} />
+        <Route path="store/:id" element={<StoreDetails />} />
+        <Route path="profile" element={<Profile />} />
+      </Route>
+      <Route path="/login" element={<UserLogin />} />
+      <Route path="/register" element={null} />
+      <Route path="/admin" element={null}>
+        <Route path="authenticate" element={null} />
+        <Route path="order-sampah" element={null} />
+        <Route path="order-sampah/:id" element={null} />
+        <Route path="order-produk" element={null} />
+        <Route path="order-produk/:id" element={null} />
+        <Route path="produk" element={null} />
+        <Route path="produk/:id" element={null} />
+      </Route>
+    </Routes>
+  </Router>
+);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    {router}
   </React.StrictMode>
 );
