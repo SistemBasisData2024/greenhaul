@@ -1,0 +1,45 @@
+/* src/pages/Store.css */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&family=Arbutus+Slab&display=swap');
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background-color: #cbddd1;
+}
+
+h1, .product-card h2 {
+  font-family: 'Arbutus Slab', serif;
+}
+
+.container {
+  background-color: #cbddd1;
+  color: #1f5014;
+}
+
+.product-card {
+  background-color: #cbddd1;
+  border-color: #1f5014;
+}
+
+.product-card h2 {
+  color: #1f5014;
+}
+
+.product-card p {
+  color: #1f5014;
+}
+
+.product-card input {
+  color: #1f5014;
+  border-color: #1f5014;
+}
+
+.product-card button {
+  background-color: #1f5014;
+  color: #cbddd1;
+}
+
+.product-card button:hover {
+  background-color: #cbddd1;
+  color: #1f5014;
+  border: 1px solid #1f5014;
+}
