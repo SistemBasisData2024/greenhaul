@@ -1,16 +1,15 @@
 import { useState } from "react";
 
-import Loading from "../../components/Loading";
+import { register } from "../../../actions/adminAction";
+import { isValidEmail } from "../../../utils";
 
-import { isValidEmail } from "../../utils";
-import { login, register } from "../../actions/adminAction";
-
-const AdminAuthenticationPage = () => {
-  const [loading, setLoading] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+const AdminRegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleAction = async () => {
     let emailError = "";
@@ -29,47 +28,25 @@ const AdminAuthenticationPage = () => {
       return;
     }
 
-    if (isLogin) {
-      setLoading(true);
+    setLoading(true);
 
-      const data = await login(email, password);
+    const data = await register(email, password);
 
-      if (data.result == null) {
-        const msg = data.message.toLowerCase() || "";
+    if (data.result == null) {
+      const msg = data.message.toLowerCase() || "";
 
-        if (msg.includes("email") || msg.includes("account")) {
-          setErrors({ email: data.message, password: "" });
-          return;
-        }
-
-        if (msg.includes("password")) {
-          setErrors({ email: "", password: data.message });
-          return;
-        }
+      if (msg.contains("email") || msg.contains("account")) {
+        setErrors({ email: msg, password: "" });
+        return;
       }
 
-      setLoading(false);
-    } else {
-      setLoading(true);
-
-      const data = await register(email, password);
-
-      if (data.result == null) {
-        const msg = data.message.toLowerCase() || "";
-
-        if (msg.contains("email") || msg.contains("account")) {
-          setErrors({ email: msg, password: "" });
-          return;
-        }
-
-        if (msg.contains("password")) {
-          setErrors({ email: "", password: msg });
-          return;
-        }
+      if (msg.contains("password")) {
+        setErrors({ email: "", password: msg });
+        return;
       }
-
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   return (
@@ -80,9 +57,7 @@ const AdminAuthenticationPage = () => {
 
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-primary-green">
-            {isLogin ? "Login" : "Register"}
-          </h2>
+          <h2 className="text-2xl font-bold text-primary-green">Register</h2>
         </div>
 
         <form className="flex flex-col gap-4 text-primary-green">
@@ -104,10 +79,11 @@ const AdminAuthenticationPage = () => {
               <p className="text-red-500 text-sm">{errors.email}</p>
             )}
           </div>
+
           <div>
             <label className="">Password</label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
@@ -121,29 +97,28 @@ const AdminAuthenticationPage = () => {
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password}</p>
             )}
+            <p
+              className={cn(
+                "mt-2 ml-1 cursor-pointer hover-underline-animation w-fit text-sm after:mt-0.5 after:h-[1px]",
+                showPassword ? "after:w-full" : ""
+              )}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              Show Password
+            </p>
           </div>
+
           <button
             type="button"
             className="button font-bold self-center"
             onClick={handleAction}
           >
-            {loading ? "Loading..." : isLogin ? "Login" : "Register"}
+            {loading ? "Loading..." : "Register"}
           </button>
         </form>
-
-        <div className="text-center">
-          <button
-            className="text-sm text-primary-green hover-underline-animation after:h-[0.5px]"
-            onClick={() => setIsLogin(!isLogin)}
-          >
-            {isLogin
-              ? "Don't have an account? Register"
-              : "Already have an account? Login"}
-          </button>
-        </div>
       </div>
     </div>
   );
 };
 
-export default AdminAuthenticationPage;
+export default AdminRegisterPage;

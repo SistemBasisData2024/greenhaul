@@ -10,7 +10,13 @@ import Store from "./pages/Store.jsx";
 import Profile from "./pages/Profile.jsx";
 import StoreDetails from "./pages/StoreDetails.jsx";
 import LandingPage from "./pages/Landing.jsx";
-import AdminAuthenticationPage from "./pages/admin/Authentication.jsx";
+
+import Admin from "./pages/admin";
+import AdminRoute from "./components/AdminRoute.jsx";
+import AdminLogin from "./pages/admin/authentication/Login.jsx";
+import AdminRegister from "./pages/admin/authentication/Register.jsx";
+import OrderSampah from "./pages/admin/orderSampah/OrderSampah.jsx";
+import OrderSampahDetails from "./pages/admin/orderSampah/OrderSampahDetails.jsx";
 
 const router = (
   <Router>
@@ -26,14 +32,18 @@ const router = (
         <Route path="/register" element={null} />
       </Route>
 
-      <Route path="/admin" element={null}>
-        <Route path="authenticate" element={<AdminAuthenticationPage />} />
-        <Route path="order-sampah" element={null} />
-        <Route path="order-sampah/:id" element={null} />
-        <Route path="order-produk" element={null} />
-        <Route path="order-produk/:id" element={null} />
-        <Route path="produk" element={null} />
-        <Route path="produk/:id" element={null} />
+      <Route path="/admin" element={<Admin />}>
+        <Route path="login" element={<AdminLogin />} />
+
+        <Route element={<AdminRoute />}>
+          <Route path="register" element={<AdminRegister />} />
+          <Route path="order-sampah" element={<OrderSampah />} />
+          <Route path="order-sampah/:id" element={<OrderSampahDetails />} />
+          <Route path="order-produk" element={null} />
+          <Route path="order-produk/:id" element={null} />
+          <Route path="produk" element={null} />
+          <Route path="produk/:id" element={null} />
+        </Route>
       </Route>
     </Routes>
   </Router>

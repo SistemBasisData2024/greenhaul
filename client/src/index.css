@@ -18,12 +18,17 @@
   }
 
   p,
-  a {
+  a,
+  h1 {
     @apply selection:bg-primary-green selection:text-secondary-green;
   }
 
   .h-screen {
     height: calc(100vh - 4rem);
+  }
+
+  .min-h-screen {
+    min-height: calc(100vh - 4rem);
   }
 
   input {
