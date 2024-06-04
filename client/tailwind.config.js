@@ -2,7 +2,15 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        abril: ['"Abril Fatface"', 'cursive'],
+      },
+      colors: {
+        'custom-green': '#1f5014',
+        'custom-cream': '#cbddd1',
+      }
+    },
   },
   plugins: [],
 };
