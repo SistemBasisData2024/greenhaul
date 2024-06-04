@@ -1,3 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-secondary-green;
+  }
+
+  body {
+    @apply bg-secondary-green;
+  }
+
+  a {
+    @apply no-underline;
+  }
+
+  p,
+  a {
+    @apply selection:bg-primary-green selection:text-secondary-green;
+  }
+
+  .h-screen {
+    height: calc(100vh - 4rem);
+  }
+
+  input {
+    @apply outline-none focus:outline-none;
+  }
+}
+
+@layer components {
+  .text-header {
+    @apply text-secondary-green bg-primary-green px-3 pb-1.5 pt-1 text-xl rounded-lg hover:scale-90 ease-in-out duration-200 inline-block;
+  }
+
+  .button {
+    @apply text-header pb-1 pt-0.5 text-base w-fit;
+  }
+
+  .hover-underline-animation {
+    position: relative;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .hover-underline-animation::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    display: block;
+    margin-top: 2px;
+    right: 0;
+    background: currentColor;
+    transition: width 0.2s ease-in-out;
+    transition-delay: 0.1s;
+  }
+
+  .hover-underline-animation:hover::after {
+    width: 100%;
+    left: 0;
+    background: currentColor;
+  }
+}
