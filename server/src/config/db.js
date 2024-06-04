@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-
 import pg from "pg";
 
 const { Pool } = pg;
@@ -14,5 +13,6 @@ export const db = new Pool({
   user: DBUSER,
   password: DBPASSWORD,
   port: DBPORT,
+  sslmode: "require",
   ssl: true,
 });
