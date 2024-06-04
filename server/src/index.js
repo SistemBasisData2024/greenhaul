@@ -1,5 +1,6 @@
 import express from "express";
 
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
@@ -22,9 +23,17 @@ const PORT = process.env.PORT || 5000;
 /* ===========  Middlewares  =========== */
 /* ===================================== */
 /* Allow Cross Origin Request */
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+    allowedHeaders: ["Authorization", "authorization", "withCredentials"],
+  })
+);
 /* All request is JSON based */
 app.use(express.json());
+/* Parse cookies into js object */
+app.use(cookieParser());
 /* All request is encoded with x-www-form-urlencoded */
 app.use(express.urlencoded({ extended: true }));
 /* Extra protection */

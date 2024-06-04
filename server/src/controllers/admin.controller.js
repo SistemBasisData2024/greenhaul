@@ -1,11 +1,17 @@
 import { db } from "../config/db.js";
 import {
+  APIResponse,
   BaseApiResponse,
+  createToken,
   hashPassword,
   isValidEmail,
 } from "../config/utils.js";
 
 import bcrypt from "bcrypt";
+
+export const isAuthorized = async (req, res, next) => {
+  next();
+};
 
 /* =============================================
  * =====   AUTHENTICATION CONTROLLERS   ========
@@ -41,8 +47,21 @@ export const adminLogin = async (req, res) => {
     if (!isCorrectPassword)
       return res.status(400).json(BaseApiResponse(null, "Wrong password!"));
 
-    return res.status(202).json(BaseApiResponse(data, "Login Success!"));
+    // If login succeed
+    const token = createToken(data.id, "admin");
+
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: 30 * 24 * 60 * 60,
+      secure: !(process.env.NODE_ENV === "development"),
+    });
+
+    return res
+      .status(202)
+      .json({ ...BaseApiResponse(data, "Login Success!"), token });
   } catch (error) {
+    console.log(error);
+
     return res.status(500).json(error);
   }
 };
@@ -77,11 +96,35 @@ export const adminRegister = async (req, res) => {
     if (!hashedPassword)
       return res.status(400).json(BaseApiResponse(null, "Wrong password!"));
 
-    return res.status(202).json(BaseApiResponse(data, "Login Success!"));
+    // If login succeed
+    const token = createToken(data.id, "admin");
+
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      maxAge: 30 * 24 * 60 * 60,
+      secure: !(process.env.NODE_ENV === "development"),
+    });
+
+    return res.status(202).json(BaseApiResponse(data, "Register Success!"));
   } catch (error) {
     if (error.code === "23505")
       return res.status(400).json(BaseApiResponse(null, "Email already used!"));
 
+    return res.status(500).json(error);
+  }
+};
+
+/* Logout Controller */
+export const adminLogout = async (req, res) => {
+  try {
+    res.clearCookie("jwt", {
+      httpOnly: true,
+      maxAge: 30 * 24 * 60 * 60,
+      secure: !(process.env.NODE_ENV === "development"),
+    });
+
+    return APIResponse(res, 200, null, "Success logout!");
+  } catch (error) {
     return res.status(500).json(error);
   }
 };
@@ -299,6 +342,25 @@ export const getAllOrderSampah = async (req, res) => {
     return res
       .status(200)
       .json(BaseApiResponse(data, "Successfully get all waste orders"));
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+export const getOrderSampahById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await db.query(
+      `SELECT * FROM order_sampah INNER JOIN "user" ON order_sampah.id_pemesan = "user".id WHERE order_sampah.id = $1`,
+      [id]
+    );
+
+    const data = result.rows[0];
+
+    return res
+      .status(200)
+      .json(BaseApiResponse(data, "Successfully get waste order details!"));
   } catch (error) {
     return res.status(500).json(error);
   }
