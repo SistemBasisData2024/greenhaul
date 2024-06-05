@@ -34,7 +34,7 @@ const NavBar = () => {
             to={link.route}
             className={({ isActive }) =>
               cn(
-                !link.route.includes("contribute")
+                !link.route.includes("register")
                   ? "text-primary-green font-bold text-xl hover-underline-animation"
                   : "text-header",
                 isActive ? "after:w-full" : ""
