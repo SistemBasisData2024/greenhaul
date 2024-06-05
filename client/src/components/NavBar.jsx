@@ -16,18 +16,18 @@ const NavBar = () => {
       title: "Login",
     },
     {
-      route: "/contribute",
+      route: "/register",
       title: "Contribute Now!",
     },
   ];
 
   return (
     <nav className="flex justify-between items-center px-8 h-16">
-      <Link to="/">
+      <div className="flex-1"></div> {/* Empty div for balancing the logo center */}
+      <Link to="/" className="flex-1 flex justify-center">
         <img src={logo} alt="GreenHaul Logo" className="h-16" />
       </Link>
-
-      <div className="flex gap-5 font-abril items-center">
+      <div className="flex-1 flex justify-end gap-10"> {/* Increased gap between links */}
         {links.map((link, i) => (
           <NavLink
             key={i}

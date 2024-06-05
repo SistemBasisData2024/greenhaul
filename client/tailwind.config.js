@@ -9,6 +9,7 @@ export default {
       },
       fontFamily: {
         abril: ["Abril Fatface", "cursive"],
+        barlow: ['Barlow', 'sans-serif'],
       },
     },
   },
