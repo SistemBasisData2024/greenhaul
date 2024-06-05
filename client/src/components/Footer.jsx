@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="py-2 border-t-2 bg-primary-green text-center">
       <p className="text-secondary-green">
-        &copy; 2023 GreenHaul. All rights reserved.
+        &copy; 2024 GreenHaul. All rights reserved.
       </p>
     </footer>
   );

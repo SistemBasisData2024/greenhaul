@@ -33,19 +33,13 @@ export const orderProduct = async (req, res) => {
     const { user_id, produk_id, jumlah } = req.body;
 
     // Check if user has enough coins
-    const userResult = await db.query(
-      'SELECT jumlah_koin FROM "user" WHERE id = $1',
-      [user_id]
-    );
+    const userResult = await db.query("SELECT jumlah_koin FROM \"user\" WHERE id = $1", [user_id]);
     const user = userResult.rows[0];
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const produkResult = await db.query(
-      'SELECT harga_koin, stok FROM "produk" WHERE id = $1',
-      [produk_id]
-    );
+    const produkResult = await db.query("SELECT harga_koin, stok FROM \"produk\" WHERE id = $1", [produk_id]);
     const produk = produkResult.rows[0];
     if (!produk) {
       return res.status(404).json({ message: "Product not found" });
