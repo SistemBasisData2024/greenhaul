@@ -2,8 +2,11 @@ import { useState } from "react";
 
 import { login } from "../../../actions/adminAction";
 import { cn, isValidEmail } from "../../../utils";
+import { useNavigate } from "react-router-dom";
 
 const AdminLoginPage = () => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -51,11 +54,13 @@ const AdminLoginPage = () => {
     }
 
     setLoading(false);
+
+    navigate("/admin/order-sampah");
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary-green">
-      <div className="text-header text-2xl mb-4 font-bold">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-secondary-green px-4">
+      <div className="text-header text-2xl mb-4 -mt-16 font-bold">
         ADMIN AUTHENTICATION
       </div>
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchOrderSampah } from "../../../actions/adminAction";
 import { Link } from "react-router-dom";
 import Loading from "../../../components/Loading";
+import { formatDate } from "../../../utils";
 
 const OrderSampah = () => {
   const [loading, setLoading] = useState(false);
@@ -13,83 +14,10 @@ const OrderSampah = () => {
 
       const res = await fetchOrderSampah();
 
-      // setOrders(res.result || []);
+      setOrders(res.result || []);
 
       setLoading(false);
     })();
-
-    setOrders([
-      {
-        id: 1,
-        id_pemesan: 2345,
-        tanggal: "2024-06-01",
-        status: "Picked Up",
-        berat: 15,
-      },
-      {
-        id: 2,
-        id_pemesan: 8976,
-        tanggal: "2024-06-02",
-        status: "Pending",
-        berat: 22,
-      },
-      {
-        id: 3,
-        id_pemesan: 4567,
-        tanggal: "2024-05-30",
-        status: "Completed",
-        berat: 18,
-      },
-      {
-        id: 4,
-        id_pemesan: 1234,
-        tanggal: "2024-06-03",
-        status: "Picked Up",
-        berat: 28,
-      },
-      {
-        id: 5,
-        id_pemesan: 9012,
-        tanggal: "2024-06-04",
-        status: "Pending",
-        berat: 12,
-      },
-      {
-        id: 6,
-        id_pemesan: 3456,
-        tanggal: "2024-05-28",
-        status: "Completed",
-        berat: 33,
-      },
-      {
-        id: 7,
-        id_pemesan: 7890,
-        tanggal: "2024-06-01",
-        status: "Picked Up",
-        berat: 19,
-      },
-      {
-        id: 8,
-        id_pemesan: 6789,
-        tanggal: "2024-06-02",
-        status: "Pending",
-        berat: 25,
-      },
-      {
-        id: 9,
-        id_pemesan: 2345,
-        tanggal: "2024-05-31",
-        status: "Completed",
-        berat: 30,
-      },
-      {
-        id: 10,
-        id_pemesan: 5678,
-        tanggal: "2024-06-03",
-        status: "Picked Up",
-        berat: 17,
-      },
-    ]);
   }, []);
 
   return (
@@ -129,7 +57,7 @@ const OrderSampah = () => {
           </h1>
 
           <h1 className="px-2 pb-1.5 pt-1 border-[1px] border-primary-green">
-            {order.tanggal}
+            {formatDate(new Date(order.tanggal))}
           </h1>
 
           <h1 className="px-2 pb-1.5 pt-1 border-[1px] border-primary-green">

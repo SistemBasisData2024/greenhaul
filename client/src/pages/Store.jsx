@@ -21,7 +21,7 @@ const Store = () => {
   }, []);
 
   return (
-    <div className="mx-4 px-4 pb-4 h-screen">
+    <div className="mx-4 px-4 pb-4 min-h-screen">
       {loading && <Loading />}
 
       <h1 className="text-2xl font-bold my-4 text-header">Store</h1>
