@@ -12,33 +12,32 @@ const NavBar = () => {
       title: "Store",
     },
     {
-      route: "/login",
-      title: "Login",
-    },
-    {
-      route: "/register",
+      route: "/user/register",
       title: "Contribute Now!",
     },
   ];
 
   return (
-    <nav className="flex justify-between items-center px-8 h-16">
-      <div className="flex-1"></div> {/* Empty div for balancing the logo center */}
-      <Link to="/" className="flex-1 flex justify-center">
+    <nav className="flex justify-between items-center px-8 h-16 z-10">
+      <div className="flex-1" />
+
+      <Link to="/" className="flex-1 justify-center hidden md:flex">
         <img src={logo} alt="GreenHaul Logo" className="h-16" />
       </Link>
-      <div className="flex-1 flex justify-end gap-10"> {/* Increased gap between links */}
+
+      <div className="flex-1 flex items-center justify-end gap-10">
         {links.map((link, i) => (
           <NavLink
             key={i}
             to={link.route}
             className={({ isActive }) =>
               cn(
-                !link.route.includes("contribute")
+                !link.title.includes("Contribute")
                   ? "text-primary-green font-bold text-xl hover-underline-animation"
                   : "text-header",
-                isActive ? "after:w-full" : ""
-              ) + ""
+                isActive ? "after:w-full" : "",
+                "text-lg whitespace-nowrap"
+              )
             }
           >
             {link.title}

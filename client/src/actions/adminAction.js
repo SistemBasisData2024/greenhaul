@@ -7,8 +7,10 @@ export const login = async (email, password) => {
       password,
     });
 
-    if (!!response?.data?.result)
+    if (!!response?.data?.result) {
       localStorage.setItem("jwt", response.data.token);
+      localStorage.setItem("id", response.data.result.id);
+    }
 
     return response.data;
   } catch (error) {
@@ -39,11 +41,7 @@ export const register = async (email, password) => {
 
 export const fetchOrderSampah = async () => {
   try {
-    const response = await axios.get("/admin/order-sampah", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("jwt") || "",
-      },
-    });
+    const response = await axios.get("/admin/order-sampah");
 
     return response?.data;
   } catch (error) {
@@ -61,6 +59,24 @@ export const fetChOrderSampahDetails = async (id) => {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt") || "",
       },
+    });
+
+    return response?.data;
+  } catch (error) {
+    if (error.response.status >= 400 && error.response.status < 600) {
+      return error.response.data;
+    }
+
+    return error.response.data;
+  }
+};
+
+export const changeOrderSampah = async (id, status, tanggal, berat) => {
+  try {
+    const response = await axios.post("/admin/order-sampah/" + id, {
+      status,
+      tanggal,
+      berat,
     });
 
     return response?.data;

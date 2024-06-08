@@ -1,17 +1,24 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-import { register } from "../../../actions/adminAction";
-import { isValidEmail } from "../../../utils";
-import { useNavigate } from "react-router-dom";
+import { register } from "../../actions/userActions";
+import { isValidEmail, cn } from "../../utils";
 
-const AdminRegisterPage = () => {
+const UserRegister = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [nama, setNama] = useState("");
+  const [alamat, setAlamat] = useState("");
 
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    nama: "",
+    alamat: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
 
   const handleAction = async () => {
@@ -33,39 +40,75 @@ const AdminRegisterPage = () => {
 
     setLoading(true);
 
-    const data = await register(email, password);
+    const data = await register(email, password, nama, alamat);
 
-    if (data.result == null) {
-      const msg = data.message.toLowerCase() || "";
+    if (data == null) {
+      // const msg = data.toLowerCase() || "";
 
-      if (msg.contains("email") || msg.contains("account")) {
-        setErrors({ email: msg, password: "" });
-        return;
-      }
+      // if (msg.contains("email") || msg.contains("account")) {
+      //   setErrors({ email: msg, password: "" });
+      //   return;
+      // }
 
-      if (msg.contains("password")) {
-        setErrors({ email: "", password: msg });
-        return;
-      }
+      // if (msg.contains("password")) {
+      //   setErrors({ email: "", password: msg });
+      //   return;
+      // }
+      console.log(data);
+      return;
     }
 
     setLoading(false);
 
-    navigate("/admin/login");
+    navigate("/user/login");
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-secondary-green px-4">
-      <div className="text-header text-2xl mb-4 font-bold">
-        ADMIN AUTHENTICATION
-      </div>
-
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-primary-green">Register</h2>
         </div>
 
         <form className="flex flex-col gap-4 text-primary-green">
+          <div>
+            <label className="">Nama</label>
+            <input
+              type="text"
+              value={nama}
+              onChange={(e) => {
+                setNama(e.target.value);
+                setErrors({ ...errors, nama: "" });
+              }}
+              className={`mt-1 block w-full p-2 border ${
+                errors.nama ? "border-red-500" : "border-gray-300"
+              } rounded-md shadow-sm focus:ring-primary-green focus:border-primary-green`}
+              required
+            />
+            {errors.nama && (
+              <p className="text-red-500 text-sm">{errors.nama}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="">Alamat</label>
+            <input
+              type="text"
+              value={alamat}
+              onChange={(e) => {
+                setAlamat(e.target.value);
+                setErrors({ ...errors, alamat: "" });
+              }}
+              className={`mt-1 block w-full p-2 border ${
+                errors.alamat ? "border-red-500" : "border-gray-300"
+              } rounded-md shadow-sm focus:ring-primary-green focus:border-primary-green`}
+              required
+            />
+            {errors.alamat && (
+              <p className="text-red-500 text-sm">{errors.alamat}</p>
+            )}
+          </div>
+
           <div>
             <label className="">Email</label>
             <input
@@ -121,9 +164,16 @@ const AdminRegisterPage = () => {
             {loading ? "Loading..." : "Register"}
           </button>
         </form>
+
+        <Link
+          to="/user/login"
+          className="text-primary-green text-center mx-auto block"
+        >
+          Login
+        </Link>
       </div>
     </div>
   );
 };
 
-export default AdminRegisterPage;
+export default UserRegister;
