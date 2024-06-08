@@ -28,7 +28,7 @@ export const userLogin = async (req, res) => {
     const token = jwt.sign({ id: user.id, email: user.email }, secretKey, { expiresIn: '1h' });
 
     res.json({
-      userId: user.id,
+      userid: user.id,
       jumlah_koin: user.jumlah_koin,
       nama: user.nama,
       alamat: user.alamat,
@@ -87,10 +87,10 @@ export const userRegister = async (req, res) => {
 
 export const getOrderSampah = async (req, res) => {
   try {
-    const { user_id } = req.query;
+    const { userid } = req.query;
 
-    const ordersQuery = 'SELECT * FROM order_sampah WHERE user_id = $1';
-    const ordersResult = await db.query(ordersQuery, [user_id]);
+    const ordersQuery = 'SELECT * FROM pemesanan WHERE id_pemesan = $1';
+    const ordersResult = await db.query(ordersQuery, [userid]);
 
     res.json(ordersResult.rows);
   } catch (error) {
@@ -100,14 +100,14 @@ export const getOrderSampah = async (req, res) => {
 
 export const createOrderSampah = async (req, res) => {
   try {
-    const { user_id, tanggal } = req.body;
+    const { id_pemesan, tanggal, berat } = req.body;
 
     const createOrderQuery = `
-      INSERT INTO order_sampah (user_id, tanggal)
-      VALUES ($1, $2)
+      INSERT INTO pemesanan (id_pemesan, tanggal, berat)
+      VALUES ($1, $2, $3)
       RETURNING *
     `;
-    const newOrder = await db.query(createOrderQuery, [user_id, tanggal]);
+    const newOrder = await db.query(createOrderQuery, [id_pemesan, tanggal, berat]);
 
     res.status(201).json(newOrder.rows[0]);
   } catch (error) {
