@@ -9,8 +9,10 @@ Aplikasi berbasis web menggunakan framework SERN (SQL, Express, React, Node) yan
 ### UML
 ![image](https://github.com/SistemBasisData2024/greenhaul/blob/main/Images/UML.jpg)
 
+
 ### Flowchart
 ![image](https://github.com/SistemBasisData2024/greenhaul/blob/main/Images/FLOWCHART.jpg)
+
 
 ### ERD
 ![image](https://github.com/SistemBasisData2024/greenhaul/blob/main/Images/ERD.jpg)
@@ -64,8 +66,9 @@ npm run dev
 Setelah server berjalan, Anda bisa mulai mengeksplorasi kode di dalam folder proyek dan menganalisa hubungan antar komponen di dalamnya.
 
 ## Progress Report:
-![image]()
-![image]()
+![image](https://github.com/SistemBasisData2024/greenhaul/blob/main/Images/PROGRESS%20REPORT%201.jpg)
+
+![image](https://github.com/SistemBasisData2024/greenhaul/blob/main/Images/PROGRESS%20REPORT%202.jpg)
 
 ## Informasi Tambahan
 
