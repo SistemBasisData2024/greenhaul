@@ -4,6 +4,16 @@ Selamat datang di Greenhaul GitHub Repository. Repository ini digunakan untuk pe
 
 Aplikasi berbasis web menggunakan framework SERN (SQL, Express, React, Node) yang memungkinkan pengguna untuk memesan pengangkut sampah yang akan mengangkut sampah daur ulang ke ruma pengguna dan mendapatkan imbalan berupa koin aplikasi yang nantinya dapat ditukarkan dengan produk-produk daur ulang pada website.
 
+## Diagram
+
+### UML
+![image](https://github.com/SistemBasisData2024/greenhaul/blob/main/Images/UML.jpg)
+
+### Flowchart
+![image](https://github.com/SistemBasisData2024/greenhaul/blob/main/Images/FLOWCHART.jpg)
+
+### ERD
+![image](https://github.com/SistemBasisData2024/greenhaul/blob/main/Images/ERD.jpg)
 
 ## Cara Memulai Development
 
@@ -52,6 +62,10 @@ npm run dev
 ### 4. Eksplorasi dan Pengembangan
 
 Setelah server berjalan, Anda bisa mulai mengeksplorasi kode di dalam folder proyek dan menganalisa hubungan antar komponen di dalamnya.
+
+## Progress Report:
+![image]()
+![image]()
 
 ## Informasi Tambahan
 
