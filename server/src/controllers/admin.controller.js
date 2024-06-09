@@ -393,6 +393,8 @@ export const changeOrderSampahById = async (req, res) => {
       .status(200)
       .json(BaseApiResponse(data, "Successfully change a waste order details"));
   } catch (error) {
+    console.log(error);
+
     if (error.code === "22P02")
       return res
         .status(400)

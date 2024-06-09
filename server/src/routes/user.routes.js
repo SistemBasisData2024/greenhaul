@@ -8,7 +8,7 @@ router.post("/login", userController.userLogin);
 router.post("/register", userController.userRegister);
 
 /* === Route for Ordering Waste Pickup Service === */
-router.get("/order-sampah", userController.getOrderSampah);
+router.get("/:id/order-sampah", userController.getOrderSampah);
 router.post("/order-sampah", userController.createOrderSampah);
 
 export default router;

@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import { register } from "../../../actions/adminAction";
-import { isValidEmail } from "../../../utils";
-import { useNavigate } from "react-router-dom";
+import { cn, isValidEmail } from "../../utils/";
+import { login } from "../../actions/userActions";
+import { Link, useNavigate } from "react-router-dom";
 
-const AdminRegisterPage = () => {
+const UserLogin = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -33,36 +33,23 @@ const AdminRegisterPage = () => {
 
     setLoading(true);
 
-    const data = await register(email, password);
+    const data = await login(email, password);
 
-    if (data.result == null) {
-      const msg = data.message.toLowerCase() || "";
-
-      if (msg.contains("email") || msg.contains("account")) {
-        setErrors({ email: msg, password: "" });
-        return;
-      }
-
-      if (msg.contains("password")) {
-        setErrors({ email: "", password: msg });
-        return;
-      }
+    if (data == null) {
+      console.log(data);
+      return;
     }
 
     setLoading(false);
 
-    navigate("/admin/login");
+    navigate("/user/dashboard");
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-secondary-green px-4">
-      <div className="text-header text-2xl mb-4 font-bold">
-        ADMIN AUTHENTICATION
-      </div>
-
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-primary-green">Register</h2>
+          <h2 className="text-2xl font-bold text-primary-green">Login</h2>
         </div>
 
         <form className="flex flex-col gap-4 text-primary-green">
@@ -118,12 +105,19 @@ const AdminRegisterPage = () => {
             className="button font-bold self-center"
             onClick={handleAction}
           >
-            {loading ? "Loading..." : "Register"}
+            {loading ? "Loading..." : "Login"}
           </button>
         </form>
+
+        <Link
+          to="/user/register"
+          className="text-primary-green text-center mx-auto block"
+        >
+          Register
+        </Link>
       </div>
     </div>
   );
 };
 
-export default AdminRegisterPage;
+export default UserLogin;
