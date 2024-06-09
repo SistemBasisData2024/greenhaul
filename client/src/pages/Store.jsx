@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
 import Loading from "../components/Loading";
-
 import { fetchProducts, orderProducts } from "../actions/storeActions";
+import { useNavigate } from "react-router-dom";
 
 const Store = () => {
   const navigate = useNavigate();
@@ -15,19 +13,15 @@ const Store = () => {
       navigate("/user/login");
       return;
     }
-
     const d = await orderProducts(id);
-
     if (!d) {
       alert("Failed!");
       return;
     }
-
     if (d.message?.includes("coins")) {
       alert("Your coins is not enough!");
       return;
     }
-
     navigate(0);
   };
 
@@ -53,17 +47,14 @@ const Store = () => {
             key={product.id}
             className="flex flex-col border-green-800 border-2 rounded-lg p-4"
           >
-            <h2 className="text-lg font-bold text-primary-green">
-              {product.nama}
-            </h2>
-
-            <div className="flex flex-col gap-0.5">
-              <p className="">{product.gambar || "Gambar"}</p>
-              <p className="">Price: {product.harga_koin} Coins</p>
-              <p className="">Stock: {product.stok}</p>
-            </div>
-
-            <button onClick={() => handleOrder(product.id)} className="button">
+            <h2 className="text-lg font-bold text-green-800 mb-2">{product.nama}</h2>
+            <img src={product.gambar} alt={product.nama} className="mb-2 h-40 w-full object-cover"/>
+            <p className="text-green-800">Price: {product.harga_koin} Coins</p>
+            <p className="text-green-800">Stock: {product.stok}</p>
+            <button
+              onClick={() => handleOrder(product.id)}
+              className="mt-auto bg-green-800 text-white py-2 px-4 rounded hover:bg-white hover:text-green-800 border border-green-800 transition-colors duration-300"
+            >
               Order
             </button>
           </div>
