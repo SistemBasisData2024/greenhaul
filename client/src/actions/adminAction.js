@@ -76,8 +76,24 @@ export const changeOrderSampah = async (id, status, tanggal, berat) => {
     const response = await axios.post("/admin/order-sampah/" + id, {
       status,
       tanggal,
-      berat,
+      berat: berat,
     });
+
+    return response?.data;
+  } catch (error) {
+    if (error.response.status >= 400 && error.response.status < 600) {
+      return error.response.data;
+    }
+
+    return error.response.data;
+  }
+};
+
+export const convertSampah = async (id) => {
+  try {
+    const response = await axios.post(
+      "/admin/order-sampah/" + id + "/konversi"
+    );
 
     return response?.data;
   } catch (error) {

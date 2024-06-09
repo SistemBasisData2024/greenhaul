@@ -15,6 +15,10 @@ const UserNavbar = () => {
       route: "/user/profile",
       title: "Profile",
     },
+    {
+      route: "/store",
+      title: "Store",
+    },
   ];
 
   return (

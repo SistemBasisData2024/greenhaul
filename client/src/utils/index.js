@@ -49,6 +49,34 @@ export function formatDate(date) {
   const day = date.getDate();
   const monthName = monthNames[date.getMonth()];
   const year = date.getFullYear();
+  const hour = date.getHours();
+  const minutes = date.getMinutes();
 
-  return `${dayName}, ${day} ${monthName} ${year}`;
+  return `${dayName}, ${day} ${monthName} ${year} — ${hour}:${
+    minutes < 10 ? "0" + minutes : minutes
+  }`;
+}
+
+const padZero = (num) => num.toString().padStart(2, "0");
+
+/**
+ * Formats a JavaScript Date object into a PostgreSQL timestamp string:
+ * "YYYY-MM-DD HH:MM:SS".
+ *
+ * @param {Date} date - The date to format.
+ * @returns {string} - The formatted timestamp string.
+ */
+export function formatToPostgresTimestamp(date) {
+  if (!(date instanceof Date)) {
+    throw new TypeError("Invalid date, must be a JavaScript Date object");
+  }
+
+  const year = date.getFullYear();
+  const month = padZero(date.getMonth() + 1); // Months are 0-based
+  const day = padZero(date.getDate());
+  const hours = padZero(date.getHours());
+  const minutes = padZero(date.getMinutes());
+  const seconds = padZero(date.getSeconds());
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }

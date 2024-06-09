@@ -1,12 +1,35 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Loading from "../components/Loading";
 
-import { fetchProducts } from "../actions/storeActions";
+import { fetchProducts, orderProducts } from "../actions/storeActions";
 
 const Store = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handleOrder = async (id) => {
+    if (!localStorage.getItem("id")) {
+      navigate("/user/login");
+      return;
+    }
+
+    const d = await orderProducts(id);
+
+    if (!d) {
+      alert("Failed!");
+      return;
+    }
+
+    if (d.message?.includes("coins")) {
+      alert("Your coins is not enough!");
+      return;
+    }
+
+    navigate(0);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -42,7 +65,7 @@ const Store = () => {
               <p className="">Stock: {product.stok}</p>
             </div>
 
-            <button onClick={() => console.log("asd")} className="button">
+            <button onClick={() => handleOrder(product.id)} className="button">
               Order
             </button>
           </div>

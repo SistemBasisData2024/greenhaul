@@ -1,4 +1,5 @@
 import axios from "axios";
+import ax from "../api/axios";
 
 const URL = "http://localhost:5000";
 
@@ -11,6 +12,21 @@ export const fetchProducts = async () => {
     return response.data;
   } catch (err) {
     console.error(err);
-    return null;
+    return err.response.data;
+  }
+};
+
+export const orderProducts = async (id) => {
+  try {
+    const response = await ax.post(`/produk/${id}`, {
+      user_id: localStorage.getItem("id"),
+      jumlah: 1,
+    });
+
+    if (!response) return null;
+
+    return response.data;
+  } catch (err) {
+    return err.response.data;
   }
 };

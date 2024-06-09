@@ -4,18 +4,18 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-import { formatDate } from "../utils/index";
-import { changeOrderSampah } from "../actions/adminAction";
+import { formatDate, formatToPostgresTimestamp } from "../utils/index";
+import { changeOrderSampah, convertSampah } from "../actions/adminAction";
 
 const ChangeOrderDetail = ({ statusOrder, berat, tanggal }) => {
   const { id } = useParams();
 
   const navigate = useNavigate();
 
-  const [status, setStatus] = useState(statusOrder);
-  const [number, setNumber] = useState(berat);
+  const [status, setStatus] = useState("");
+  const [beratSampah, setBeratSampah] = useState(0);
 
-  const [startDate, setStartDate] = useState(tanggal);
+  const [startDate, setStartDate] = useState(null);
   const [showCalendar, setShowCalendar] = useState(false);
 
   const calendarRef = useRef();
@@ -41,10 +41,35 @@ const ChangeOrderDetail = ({ statusOrder, berat, tanggal }) => {
     };
   }, []);
 
+  useEffect(() => {
+    setStatus(statusOrder);
+    setBeratSampah(berat);
+    setStartDate(new Date(tanggal));
+  }, [statusOrder, berat, tanggal]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const d = await changeOrderSampah(id, status, tanggal, berat);
+    if (status === "SAMPAH BERHASIL DIKONVERSI MENJADI KOIN") {
+      const a = await convertSampah(id);
+
+      if (!a) {
+        alert("Failed to convert!");
+
+        return;
+      }
+
+      navigate("/admin/order-sampah");
+
+      return;
+    }
+
+    const d = await changeOrderSampah(
+      id,
+      status,
+      formatToPostgresTimestamp(startDate),
+      beratSampah
+    );
 
     if (!d.result) {
       alert("Failed to change!");
@@ -71,13 +96,13 @@ const ChangeOrderDetail = ({ statusOrder, berat, tanggal }) => {
         >
           <option value="">Pilih Status</option>
           <option value="PESANAN SELESAI">PESANAN SELESAI</option>
-          <option value="BERHASIL KONVERSI">
-            SAMPAH BERHASIL DIKONVERSI MENJADI KOIN
+          <option value="SAMPAH BERHASIL DIKONVERSI MENJADI KOIN">
+            BERHASIL KONVERSI
           </option>
-          <option value="SEDANG DIHITUNG">SAMPAH SEDANG DIHITUNG</option>
-          <option value="MENUJU ALAMAT">TUKANG SEDANG MENUJU ALAMAT</option>
-          <option value="SAMPAH SUDAH DIANGKUT">
-            TUKANG TELAH MENGANGKUT SAMPAH
+          <option value="SAMPAH SEDANG DIHITUNG">SEDANG DIHITUNG</option>
+          <option value="TUKANG SEDANG MENUJU ALAMAT">MENUJU ALAMAT</option>
+          <option value="TUKANG TELAH MENGANGKUT SAMPAH">
+            SAMPAH SUDAH DIANGKUT
           </option>
           <option value="PESANAN DIPROSES">PESANAN DIPROSES</option>
         </select>
@@ -90,8 +115,11 @@ const ChangeOrderDetail = ({ statusOrder, berat, tanggal }) => {
         <input
           id="number"
           type="number"
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
+          min={0}
+          value={beratSampah || 0}
+          onChange={(e) => {
+            setBeratSampah(e.target.value);
+          }}
           className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-primary-green"
         />
       </div>
@@ -103,7 +131,9 @@ const ChangeOrderDetail = ({ statusOrder, berat, tanggal }) => {
           onClick={toggleCalendar}
           className="w-full px-3 py-2 border bg-white rounded-md focus:outline-none focus:ring focus:ring-primary-green text-left"
         >
-          {startDate ? formatDate(new Date(startDate)) : "Select a Date"}
+          {startDate
+            ? formatToPostgresTimestamp(new Date(startDate))
+            : "Select a Date"}
         </button>
 
         {showCalendar && (
@@ -115,6 +145,10 @@ const ChangeOrderDetail = ({ statusOrder, berat, tanggal }) => {
               selected={startDate}
               onChange={handleDateChange}
               inline
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={15}
+              dateFormat="yyyy-MM-dd HH:mm"
               minDate={new Date()}
               calendarClassName="custom-calendar"
             />
@@ -125,7 +159,7 @@ const ChangeOrderDetail = ({ statusOrder, berat, tanggal }) => {
       <button
         type="submit"
         className="bg-primary-green text-white px-4 py-2 rounded-md mt-4"
-        disabled={!status || !number || !startDate}
+        disabled={!status || !beratSampah || !startDate}
       >
         Submit
       </button>

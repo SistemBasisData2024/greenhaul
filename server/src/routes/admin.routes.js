@@ -19,7 +19,7 @@ router.post("/logout", adminController.adminLogout);
 router.get("/order-sampah", adminController.getAllOrderSampah);
 router.get("/order-sampah/:id", adminController.getOrderSampahById);
 router.post("/order-sampah/:id", adminController.changeOrderSampahById);
-router.post("/order-sampah/konversi", adminController.konversiSampahToCoin);
+router.post("/order-sampah/:id/konversi", adminController.konversiSampahToCoin);
 
 router.get("/order-produk", adminController.getAllOrderProduk);
 router.get("/order-produk/:id", adminController.getOrderProdukById);

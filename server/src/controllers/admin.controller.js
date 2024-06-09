@@ -374,8 +374,8 @@ export const changeOrderSampahById = async (req, res) => {
   try {
     const result = await db.query(
       `UPDATE order_sampah
-      SET status  = $2
-          tanggal = $3
+      SET status  = $2,
+          tanggal = $3,
           berat   = $4
       WHERE id = $1
       RETURNING *`,
@@ -422,35 +422,50 @@ export const konversiSampahToCoin = async (req, res) => {
         .status(404)
         .json(BaseApiResponse(null, "Waste order not found!"));
 
+    if (data.status === "SAMPAH BERHASIL DIKONVERSI MENJADI KOIN")
+      return res.status(400).json(BaseApiResponse(null, "Already converted"));
+
+    const changeStatus = await db.query(
+      `UPDATE order_sampah
+      SET status  = 'SAMPAH BERHASIL DIKONVERSI MENJADI KOIN'
+      WHERE id = $1
+      RETURNING *`,
+      [id]
+    );
+
     const user = await db.query(
       `SELECT * FROM "user"
       WHERE id = $1`,
       [data.id_pemesan]
     );
 
-    if (!!user)
+    const u = user.rows[0];
+
+    if (!u)
       return res.status(400).json(BaseApiResponse(null, "User not found!"));
 
     const convertedCoins = Math.round(data.berat * 1000);
-    const addedCoins = user.jumlah_koin + convertedCoins;
+    const addedCoins = u.jumlah_koin + convertedCoins;
 
-    const updateUser = db.query(
+    const updateUser = await db.query(
       `UPDATE "user"
       SET jumlah_koin = $2
       WHERE id = $1
       RETURNING *`,
-      [user.id, addedCoins]
+      [u.id, addedCoins]
     );
 
     return res
       .status(200)
       .json(
         BaseApiResponse(
-          { updated_user: updateUser, coinsAdded: convertedCoins },
+          { updated_user: updateUser.rows[0], coinsAdded: convertedCoins },
           "Successfully convert a waste order to user coins"
         )
       );
   } catch (error) {
+    console.log(error);
+
     if (error.code === "22P02")
       return res
         .status(400)

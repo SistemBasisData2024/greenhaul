@@ -1,4 +1,5 @@
 import axios from "../api/axios";
+import { formatToPostgresTimestamp } from "../utils";
 
 export const login = async (email, password) => {
   try {
@@ -7,8 +8,10 @@ export const login = async (email, password) => {
       password,
     });
 
-    localStorage.setItem("jwt", response.data.token);
-    localStorage.setItem("id", response.data.userId);
+    if (!!response.data) {
+      localStorage.setItem("jwt", response.data.token);
+      localStorage.setItem("id", response.data.userid);
+    }
 
     return response.data;
   } catch (error) {
@@ -58,8 +61,9 @@ export const getOrderSampah = async () => {
 export const createOrderSampah = async (tanggal) => {
   try {
     const response = await axios.post("/user/order-sampah", {
-      user_id: localStorage.getItem("id"),
-      tanggal,
+      id_pemesan: localStorage.getItem("id"),
+      tanggal: formatToPostgresTimestamp(tanggal),
+      berat: 0,
     });
 
     return response.data;

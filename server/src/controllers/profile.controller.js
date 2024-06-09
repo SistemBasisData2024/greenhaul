@@ -9,8 +9,6 @@ export const getUserProfile = async (req, res) => {
       user_id,
     ]);
 
-    console.log(rows);
-
     if (rows.length === 0) {
       res.status(404).json({ error: "User not found" });
     } else {

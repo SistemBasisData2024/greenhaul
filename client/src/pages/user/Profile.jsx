@@ -14,6 +14,7 @@ const Profile = () => {
   const [email, setEmail] = useState("");
   const [nama, setNama] = useState("");
   const [alamat, setAlamat] = useState("");
+  const [koin, setKoin] = useState(0);
 
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
@@ -37,6 +38,7 @@ const Profile = () => {
     setEmail(pr.email);
     setNama(pr.nama);
     setAlamat(pr.alamat);
+    setKoin(pr.jumlah_koin);
   };
 
   useEffect(() => {
@@ -76,6 +78,12 @@ const Profile = () => {
           <h2 className="text-2xl font-bold text-primary-green">
             User Profile
           </h2>
+        </div>
+
+        <div>
+          <h1>Koin: </h1>
+
+          <h1>{koin}</h1>
         </div>
 
         <form className="flex flex-col gap-4 text-primary-green">
@@ -147,6 +155,17 @@ const Profile = () => {
             {loading ? "Loading..." : "Save Changes"}
           </button>
         </form>
+
+        <button
+          type="button"
+          className="button font-bold self-center block mx-auto disabled:bg-slate-500"
+          onClick={() => {
+            localStorage.clear();
+            navigate("/");
+          }}
+        >
+          Log out
+        </button>
       </div>
     </div>
   );

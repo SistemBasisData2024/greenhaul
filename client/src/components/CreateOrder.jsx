@@ -68,7 +68,11 @@ const CreateOrder = ({ text = "Create Order" }) => {
             selected={startDate}
             onChange={handleDateChange}
             inline
-            minDate={new Date()} // Prevent selecting past dates
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            dateFormat="yyyy-MM-dd HH:mm"
+            minDate={new Date()}
             calendarClassName="custom-calendar"
           />
           <button

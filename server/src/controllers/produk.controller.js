@@ -29,17 +29,22 @@ export const getProductDetail = async (req, res) => {
 
 /* Order Product Controller */
 export const orderProduct = async (req, res) => {
-  try {
-    const { user_id, produk_id, jumlah } = req.body;
+  const { id } = req.params;
+  const { user_id, jumlah } = req.body;
 
+  try {
     // Check if user has enough coins
-    const userResult = await db.query("SELECT jumlah_koin FROM \"user\" WHERE id = $1", [user_id]);
+    const userResult = await db.query('SELECT * FROM "user" WHERE id = $1', [
+      user_id,
+    ]);
     const user = userResult.rows[0];
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const produkResult = await db.query("SELECT harga_koin, stok FROM \"produk\" WHERE id = $1", [produk_id]);
+    const produkResult = await db.query("SELECT * FROM produk WHERE id = $1", [
+      id,
+    ]);
     const produk = produkResult.rows[0];
     if (!produk) {
       return res.status(404).json({ message: "Product not found" });
@@ -54,10 +59,30 @@ export const orderProduct = async (req, res) => {
       return res.status(400).json({ message: "Insufficient product stock" });
     }
 
+    const updateProduk = await db.query(
+      `
+      UPDATE produk
+      SET stok = $1
+      WHERE id = $2
+      RETURNING *
+      `,
+      [produk.stok - jumlah, produk.id]
+    );
+
+    const updateUser = await db.query(
+      `
+      UPDATE "user"
+      SET jumlah_koin = $1
+      WHERE id = $2
+      RETURNING *
+      `,
+      [user.jumlah_koin - totalHarga, user.id]
+    );
+
     // Insert order into order_produk table
     const result = await db.query(
-      "INSERT INTO order_produk (id_pemesan, id_produk, status_produk, jumlah) VALUES ($1, $2, 'MENUNGGU KONFIRMASI', $3) RETURNING *",
-      [user_id, produk_id, jumlah]
+      "INSERT INTO order_produk (id_pemesan, id_produk, status, jumlah) VALUES ($1, $2, 'PESANAN DIBELI', $3) RETURNING *",
+      [updateUser.rows[0].id, updateProduk.rows[0].id, jumlah]
     );
 
     res.status(201).json(result.rows[0]);

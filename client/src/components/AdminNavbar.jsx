@@ -8,10 +8,6 @@ import logo from "../assets/greenhaul.png";
 const AdminNavBar = () => {
   const links = [
     {
-      route: "/admin/account",
-      title: "Account",
-    },
-    {
       route: "/admin/order-sampah",
       title: "Order Sampah",
     },

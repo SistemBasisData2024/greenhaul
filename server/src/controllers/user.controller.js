@@ -112,8 +112,8 @@ export const createOrderSampah = async (req, res) => {
     const { id_pemesan, tanggal, berat } = req.body;
 
     const createOrderQuery = `
-      INSERT INTO order_sampah (id_pemesan, tanggal)
-      VALUES ($1, $2)
+      INSERT INTO order_sampah (id_pemesan, tanggal, berat)
+      VALUES ($1, $2, $3)
       RETURNING *
     `;
     const newOrder = await db.query(createOrderQuery, [

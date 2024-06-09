@@ -45,6 +45,8 @@ const UserLogin = () => {
     navigate("/user/dashboard");
   };
 
+  if (!!localStorage.getItem("id")) navigate("/user/dashboard");
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-secondary-green px-4">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg">
