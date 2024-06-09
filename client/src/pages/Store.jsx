@@ -34,26 +34,24 @@ const Store = () => {
   useEffect(() => {
     setLoading(true);
 
-    (async function () {
+    (async function fetchAndSetProducts() {
       const data = await fetchProducts();
-
       setProducts(data || []);
+      setLoading(false);
     })();
-
-    setLoading(false);
   }, []);
 
   return (
-    <div className="mx-4 px-4 pb-4 min-h-screen">
+    <div className="bg-[#cbddd1] min-h-screen p-4">
       {loading && <Loading />}
 
-      <h1 className="text-2xl font-bold my-4 text-header">Store</h1>
+      <h1 className="text-2xl font-bold my-4 text-center text-green-800"></h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-7">
         {products.map((product) => (
           <div
             key={product.id}
-            className="border-primary-green border-2 text-primary-green p-4 rounded-md flex flex-col gap-4"
+            className="flex flex-col border-green-800 border-2 rounded-lg p-4"
           >
             <h2 className="text-lg font-bold text-primary-green">
               {product.nama}
