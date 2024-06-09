@@ -35,12 +35,11 @@ app.use(
     ],
   })
 );
-/* All request is JSON based */
-app.use(express.json());
+/* All request is encoded with x-www-form-urlencoded */
+app.use(express.json({ limit: "20mb" }));
+app.use(express.urlencoded({ extended: true, limit: "20mb" }));
 /* Parse cookies into js object */
 app.use(cookieParser());
-/* All request is encoded with x-www-form-urlencoded */
-app.use(express.urlencoded({ extended: true }));
 /* Extra protection */
 app.use(helmet());
 

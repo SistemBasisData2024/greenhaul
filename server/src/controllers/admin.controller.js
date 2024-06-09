@@ -1,3 +1,6 @@
+import { v2 as cloudinary } from "cloudinary";
+import bcrypt from "bcrypt";
+
 import { db } from "../config/db.js";
 import {
   APIResponse,
@@ -7,11 +10,12 @@ import {
   isValidEmail,
 } from "../config/utils.js";
 
-import bcrypt from "bcrypt";
-
-export const isAuthorized = async (req, res, next) => {
-  next();
-};
+// Configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_KEY,
+  api_secret: process.env.CLOUD_SECRET,
+});
 
 /* =============================================
  * =====   AUTHENTICATION CONTROLLERS   ========
@@ -153,12 +157,27 @@ export const getAllProduk = async (req, res) => {
 export const createProduk = async (req, res) => {
   const { nama, stok, harga_koin, gambar } = req.body;
 
+  // Upload an image
+  const uploadResult = await cloudinary.uploader
+    .upload(gambar, {
+      public_id: nama,
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  // Optimize delivery by resizing and applying auto-format and auto-quality
+  const optimizeUrl = cloudinary.url(nama, {
+    fetch_format: "auto",
+    quality: "auto",
+  });
+
   try {
     const result = await db.query(
       `INSERT INTO produk (nama, stok, harga_koin, gambar)
       VALUES ($1, $2, $3, $4)
       RETURNING *`,
-      [nama, stok, harga_koin, gambar]
+      [nama, stok, harga_koin, optimizeUrl]
     );
 
     const data = result.rows[0];
@@ -167,10 +186,12 @@ export const createProduk = async (req, res) => {
       .status(200)
       .json(BaseApiResponse(data, "Successfully create a product"));
   } catch (error) {
-    if (error.code === "22P02")
-      return res
-        .status(400)
-        .json(BaseApiResponse(null, "Wrong input type!\nPlease check again!"));
+    console.log(error);
+
+    // if (error.code === "22P02")
+    //   return res
+    //     .status(400)
+    //     .json(BaseApiResponse(null, "Wrong input type!\nPlease check again!"));
 
     return res.status(500).json(error);
   }
@@ -196,10 +217,12 @@ export const getProdukById = async (req, res) => {
       .status(200)
       .json(BaseApiResponse(data, "Successfully get a product"));
   } catch (error) {
-    if (error.code === "22P02")
-      return res
-        .status(400)
-        .json(BaseApiResponse(null, "ID is not a valid UUID"));
+    console.log(error);
+
+    // if (error.code === "22P02")
+    //   return res
+    //     .status(400)
+    //     .json(BaseApiResponse(null, "ID is not a valid UUID"));
 
     return res.status(500).json(error);
   }
@@ -210,6 +233,23 @@ export const changeProdukById = async (req, res) => {
   const { id } = req.params;
   const { nama, gambar, harga_koin, stok } = req.body;
 
+  // Upload an image
+  const uploadResult = await cloudinary.uploader
+    .upload(gambar, {
+      public_id: "product" + id,
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  console.log(uploadResult);
+
+  // Optimize delivery by resizing and applying auto-format and auto-quality
+  const optimizeUrl = cloudinary.url("product" + id, {
+    fetch_format: "auto",
+    quality: "auto",
+  });
+
   try {
     const result = await db.query(
       `UPDATE produk
@@ -219,7 +259,7 @@ export const changeProdukById = async (req, res) => {
           stok       = $5
       WHERE id = $1
       RETURNING *`,
-      [id, nama, gambar, harga_koin, stok]
+      [id, nama, optimizeUrl, harga_koin, stok]
     );
 
     const data = result.rows[0];

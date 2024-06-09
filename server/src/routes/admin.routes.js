@@ -10,8 +10,6 @@ router.post("/login", adminController.adminLogin);
 
 router.use(requireAdmin);
 
-router.get("/*", requireAdmin, adminController.isAuthorized);
-
 router.post("/register", adminController.adminRegister);
 
 router.post("/logout", adminController.adminLogout);

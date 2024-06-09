@@ -23,8 +23,13 @@ import AdminRegister from "./pages/admin/authentication/Register.jsx";
 
 import OrderSampah from "./pages/admin/orderSampah/OrderSampah.jsx";
 import OrderSampahDetails from "./pages/admin/orderSampah/OrderSampahDetails.jsx";
+import OrderProduk from "./pages/admin/orderProduk/OrderProduk.jsx";
 import Dashboard from "./pages/user/Dashboard.jsx";
 import User from "./pages/user/index.jsx";
+import OrderProdukDetails from "./pages/admin/orderProduk/OrderProdukDetails.jsx";
+import ProdukList from "./pages/admin/produk/ProdukList.jsx";
+import ProductDetails from "./pages/admin/produk/ProductDetails.jsx";
+import CreateProduct from "./pages/admin/produk/CreateProduct.jsx";
 
 const router = (
   <Router>
@@ -54,10 +59,11 @@ const router = (
           <Route path="register" element={<AdminRegister />} />
           <Route path="order-sampah" element={<OrderSampah />} />
           <Route path="order-sampah/:id" element={<OrderSampahDetails />} />
-          <Route path="order-produk" element={null} />
-          <Route path="order-produk/:id" element={null} />
-          <Route path="produk" element={null} />
-          <Route path="produk/:id" element={null} />
+          <Route path="order-produk" element={<OrderProduk />} />
+          <Route path="order-produk/:id" element={<OrderProdukDetails />} />
+          <Route path="produk" element={<ProdukList />} />
+          <Route path="produk/create" element={<CreateProduct />} />
+          <Route path="produk/:id" element={<ProductDetails />} />
         </Route>
       </Route>
     </Routes>

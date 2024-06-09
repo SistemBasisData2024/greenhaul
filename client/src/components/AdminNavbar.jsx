@@ -15,6 +15,10 @@ const AdminNavBar = () => {
       route: "/admin/order-produk",
       title: "Order Produk",
     },
+    {
+      route: "/admin/produk",
+      title: "Produk",
+    },
   ];
 
   return (
