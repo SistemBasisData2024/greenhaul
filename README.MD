@@ -2,6 +2,9 @@
 
 Selamat datang di Greenhaul GitHub Repository. Repository ini digunakan untuk pengembangan proyek akhir Praktikum Sistem Basis Data (SBD) oleh Kelompok 13.
 
+Aplikasi berbasis web menggunakan framework SERN (SQL, Express, React, Node) yang memungkinkan pengguna untuk memesan pengangkut sampah yang akan mengangkut sampah daur ulang ke ruma pengguna dan mendapatkan imbalan berupa koin aplikasi yang nantinya dapat ditukarkan dengan produk-produk daur ulang pada website.
+
+
 ## Cara Memulai Development
 
 Ikuti langkah-langkah berikut untuk memulai pengembangan proyek:
